@@ -15,12 +15,12 @@
 
 ### Operating Systems
 
-|                  | node14 | node16 | node18 |
-| ---------------- | ------ | ------ | ------ |
-| Windows x64      | ✓      | ✓      | ✓      |
-| Windows x32      | ✓      | ✓      | ✓      |
-| macOS x64        | ✓      | ✓      | ✓      |
-| macOS arm64      | ✓      | ✓      | ✓      |
+|             | node14 | node16 | node18 |
+| ----------- | ------ | ------ | ------ |
+| Windows x64 | ✓      | ✓      | ✓      |
+| Windows x32 | ✓      | ✓      | ✓      |
+| macOS x64   | ✓      | ✓      | ✓      |
+| macOS arm64 | ✓      | ✓      | ✓      |
 
 ### CI
 

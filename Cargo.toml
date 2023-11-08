@@ -10,7 +10,7 @@ version = "0.1.0"
 crate-type = ["cdylib"]
 
 [dependencies]
-minidump = "0.19.1"
+minidump    = "0.19.1"
 napi        = "2"
 napi-derive = "2"
 
