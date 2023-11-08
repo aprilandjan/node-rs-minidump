@@ -11,14 +11,15 @@
   "files": [
     "node-rs-minidump.win32-ia32-msvc.node"
   ],
-  "description": "Template project for writing node package with napi-rs",
+  "description": "use rust-minidump to parse minidump files in node.js environment",
   "keywords": [
     "napi-rs",
     "NAPI",
     "N-API",
     "Rust",
     "node-addon",
-    "node-addon-api"
+    "node-addon-api",
+    "minidump"
   ],
   "license": "MIT",
   "engines": {
@@ -28,5 +29,5 @@
     "registry": "https://registry.npmjs.org/",
     "access": "public"
   },
-  "repository": "git@github.com:napi-rs/package-template.git"
+  "repository": "https://github.com/aprilandjan/node-rs-minidump"
 }
