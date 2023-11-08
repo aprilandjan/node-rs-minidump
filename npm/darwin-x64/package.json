@@ -1,6 +1,6 @@
 {
   "name": "node-rs-minidump-darwin-x64",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "os": [
     "darwin"
   ],
