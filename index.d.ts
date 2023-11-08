@@ -14,4 +14,4 @@ export interface MinidumpModuleCrashpadInfo {
 export interface CrashpadInfo {
   moduleList: Array<MinidumpModuleCrashpadInfo>
 }
-export function getCraspadInfo(path: string): CrashpadInfo
+export function getCrashpadInfo(path: string): CrashpadInfo

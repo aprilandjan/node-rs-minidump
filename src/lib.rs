@@ -21,7 +21,7 @@ pub struct CrashpadInfo {
 }
 
 #[napi]
-pub fn get_craspad_info(path: String) -> napi::Result<CrashpadInfo> {
+pub fn get_crashpad_info(path: String) -> napi::Result<CrashpadInfo> {
   // Read the minidump from a file
   let dump_result = minidump::Minidump::read_path(path);
 

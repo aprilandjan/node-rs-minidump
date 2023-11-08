@@ -234,6 +234,6 @@ if (!nativeBinding) {
   throw new Error(`Failed to load native binding`)
 }
 
-const { getCraspadInfo } = nativeBinding
+const { getCrashpadInfo } = nativeBinding
 
-module.exports.getCraspadInfo = getCraspadInfo
+module.exports.getCrashpadInfo = getCrashpadInfo
