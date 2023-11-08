@@ -1,15 +1,10 @@
 # `node-rs-minidump`
 
-![https://github.com/napi-rs/package-template/actions](https://github.com/napi-rs/package-template/workflows/CI/badge.svg)
-
-> Template project for writing node packages with napi-rs.
+Parse minidump files in node.js, in use of [rust-minidump](https://github.com/rust-minidump/rust-minidump).
 
 # Usage
 
-1. Click **Use this template**.
-2. **Clone** your project.
-3. Run `yarn install` to install dependencies.
-4. Run `npx napi rename -n [name]` command under the project folder to rename your package.
+> yarn add node-rs-minidump
 
 ## Support matrix
 
@@ -41,8 +36,8 @@ In this package, we choose a better way to solve this problem. We release differ
 ## Develop requirements
 
 - Install the latest `Rust`
-- Install `Node.js@10+` which fully supported `Node-API`
-- Install `yarn@1.x`
+- Install `Node.js@18`
+- Install `yarn@4`
 
 ## Test in local
 
