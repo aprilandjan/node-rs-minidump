@@ -1,7 +1,6 @@
 #![deny(clippy::all)]
 use std::collections::HashMap;
 
-use minidump;
 use napi::{Error, Status};
 use napi_derive::napi;
 
