@@ -1,6 +1,6 @@
 {
   "name": "node-rs-minidump",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "use rust-minidump to parse minidump files in node.js environment",
   "main": "index.js",
   "repository": "https://github.com/aprilandjan/node-rs-minidump",
@@ -21,7 +21,7 @@
   "napi": {
     "name": "node-rs-minidump",
     "triples": {
-      "defaults": true,
+      "defaults": false,
       "additional": [
         "i686-pc-windows-msvc",
         "x86_64-pc-windows-msvc",
