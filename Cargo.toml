@@ -1,6 +1,6 @@
 [package]
 authors = ["aprilandjan"]
-edition = "2023"
+edition = "2021"
 name    = "node-rs-minidump"
 version = "0.1.0"
 
