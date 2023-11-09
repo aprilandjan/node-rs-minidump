@@ -16,7 +16,6 @@ pub struct MinidumpModuleCrashpadInfo {
 
 #[napi(object)]
 pub struct CrashpadInfo {
-  // pub simple_annotations: BTreeMap<String, String>,
   pub module_list: Vec<MinidumpModuleCrashpadInfo>,
 }
 

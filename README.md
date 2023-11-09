@@ -1,10 +1,12 @@
 # `node-rs-minidump`
 
-Parse minidump files in node.js, in use of [rust-minidump](https://github.com/rust-minidump/rust-minidump).
+[WIP]Parse minidump files in node.js, in use of [rust-minidump](https://github.com/rust-minidump/rust-minidump).
 
-# Usage
+## Usage
 
-> yarn add node-rs-minidump
+```bash
+$ yarn add node-rs-minidump
+```
 
 ## Support matrix
 
