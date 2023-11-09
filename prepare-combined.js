@@ -29,10 +29,7 @@ pkg.name = pkg.name + '-combined'
 pkg.optionalDependencies = {}
 pkg.devDependencies = {}
 pkg.scripts = {}
-pkg.files = {
-  ...pkg.files,
-  ...binaries,
-}
+pkg.files = [...pkg.files, ...binaries]
 
 // copy needed files
 fs.writeJsonSync(path.join(combinedPath, 'package.json'), pkg)
