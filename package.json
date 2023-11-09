@@ -1,6 +1,6 @@
 {
   "name": "node-rs-minidump",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "use rust-minidump to parse minidump files in node.js environment",
   "main": "index.js",
   "repository": "https://github.com/aprilandjan/node-rs-minidump",
