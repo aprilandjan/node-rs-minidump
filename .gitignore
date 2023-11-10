@@ -130,3 +130,5 @@ Cargo.lock
 
 # combined pkg temp path
 npm-combined
+
+.DS_Store

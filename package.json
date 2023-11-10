@@ -3,6 +3,7 @@
   "version": "1.0.8",
   "description": "use rust-minidump to parse minidump files in node.js environment",
   "main": "index.js",
+  "types": "index.d.ts",
   "repository": "https://github.com/aprilandjan/node-rs-minidump",
   "license": "MIT",
   "keywords": [
