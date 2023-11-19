@@ -14,4 +14,8 @@ export interface MinidumpModuleCrashpadInfo {
 export interface CrashpadInfo {
   moduleList: Array<MinidumpModuleCrashpadInfo>
 }
+/**
+ * Get crashpad-specific information carried within a minidump file.
+ * For example: process type, process pid, etc.
+ */
 export function getCrashpadInfo(path: string): CrashpadInfo

@@ -19,6 +19,8 @@ pub struct CrashpadInfo {
   pub module_list: Vec<MinidumpModuleCrashpadInfo>,
 }
 
+/// Get crashpad-specific information carried within a minidump file.
+/// For example: process type, process pid, etc.
 #[napi]
 pub fn get_crashpad_info(path: String) -> napi::Result<CrashpadInfo> {
   // Read the minidump from a file
