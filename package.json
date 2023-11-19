@@ -1,6 +1,6 @@
 {
   "name": "node-rs-minidump",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Node.js native binding for rust-minidump",
   "main": "index.js",
   "types": "index.d.ts",
