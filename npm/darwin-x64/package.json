@@ -11,7 +11,7 @@
   "files": [
     "node-rs-minidump.darwin-x64.node"
   ],
-  "description": "use rust-minidump to parse minidump files in node.js environment",
+  "description": "Node.js native binding for rust-minidump",
   "keywords": [
     "napi-rs",
     "NAPI",
