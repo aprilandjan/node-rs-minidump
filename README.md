@@ -1,7 +1,9 @@
 # `node-rs-minidump`
 
-![ci](https://github.com/aprilandjan/node-rs-minidump/actions/workflows/CI.yml/badge.svg) ![npm-version](https://img.shields.io/npm/v/node-rs-minidump
-) ![npm-dw](https://img.shields.io/npm/dw/node-rs-minidump)
+[![ci](https://github.com/aprilandjan/node-rs-minidump/actions/workflows/CI.yml/badge.svg)](https://github.com/aprilandjan/node-rs-minidump/actions/workflows/CI.yml)
+[![npm-version](https://img.shields.io/npm/v/node-rs-minidump
+)](https://www.npmjs.com/package/node-rs-minidump)
+[![npm-dw](https://img.shields.io/npm/dw/node-rs-minidump)](https://www.npmjs.com/package/node-rs-minidump)
 
 Node.js native binding for [rust-minidump](https://github.com/rust-minidump/rust-minidump). Useful if you want to parse minidump files in node.js(or electron app) environment.
 
