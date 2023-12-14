@@ -62,3 +62,8 @@ $ yarn test
 $ npm version [<newversion> | major | minor | patch | premajor | preminor | prepatch | prerelease [--preid=<prerelease-id>] | from-git]
 $ git push
 ```
+
+## References
+
+- <https://github.com/rust-minidump/rust-minidump/tree/main/minidump>
+- <https://github.com/rust-minidump/minidump-debugger>
