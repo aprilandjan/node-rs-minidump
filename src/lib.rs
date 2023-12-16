@@ -1,7 +1,5 @@
 #![deny(clippy::all)]
 use std::collections::HashMap;
-
-use napi::{Error, Status};
 use napi_derive::napi;
 
 /// Additional Crashpad-specific information about a module carried within a minidump file.
@@ -29,8 +27,8 @@ pub fn get_crashpad_info(path: String) -> napi::Result<CrashpadInfo> {
   let dump = match dump_result {
     Ok(dump) => dump,
     Err(_) => {
-      return Err(Error::new(
-        Status::InvalidArg,
+      return Err(napi::Error::new(
+        napi::Status::InvalidArg,
         "read minidump file failed".to_owned(),
       ))
     }
@@ -41,8 +39,8 @@ pub fn get_crashpad_info(path: String) -> napi::Result<CrashpadInfo> {
   let crashpad_info = match crashpad_info_result {
     Ok(info) => info,
     Err(_) => {
-      return Err(Error::new(
-        Status::GenericFailure,
+      return Err(napi::Error::new(
+        napi::Status::GenericFailure,
         "get crashpadInfo stream from dump file failed".to_owned(),
       ))
     }

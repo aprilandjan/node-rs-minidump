@@ -63,7 +63,19 @@ $ npm version [<newversion> | major | minor | patch | premajor | preminor | prep
 $ git push
 ```
 
+## TODO
+
+- [ ] export a [class](https://napi.rs/docs/concepts/class)
+- [ ] add `get_system_info`
+- [ ] add `get_misc_info`
+- [ ] add `get_exception`
+- [ ] add `get_module_list`
+- [ ] add `get_thread_list`
+- [ ] add `get_memory_list`
+
 ## References
 
 - <https://github.com/rust-minidump/rust-minidump/tree/main/minidump>
 - <https://github.com/rust-minidump/minidump-debugger>
+- <https://nick.groenen.me/posts/rust-error-handling/>
+- <https://github.com/dtolnay/thiserror>
