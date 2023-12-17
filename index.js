@@ -234,6 +234,7 @@ if (!nativeBinding) {
   throw new Error(`Failed to load native binding`)
 }
 
-const { getCrashpadInfo } = nativeBinding
+const { getCrashpadInfo, Minidump } = nativeBinding
 
 module.exports.getCrashpadInfo = getCrashpadInfo
+module.exports.Minidump = Minidump
