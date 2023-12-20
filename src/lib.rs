@@ -1,5 +1,5 @@
 #![deny(clippy::all)]
-use std::{collections::HashMap, alloc::System};
+use std::{collections::HashMap};
 use napi_derive::napi;
 use memmap2::Mmap;
 
@@ -18,9 +18,12 @@ pub struct CrashpadInfo {
   pub module_list: Vec<MinidumpModuleCrashpadInfo>,
 }
 
+/// Information about the system that generated the minidump.
 #[napi(object)]
 pub struct SystemInfo {
-  //
+  // An x86 (not x64!) CPU vendor name that is stored in `raw` but in a way
+  // that's
+  // pub cpu_info: String,
 }
 
 #[napi]
