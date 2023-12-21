@@ -128,6 +128,8 @@ impl Minidump {
       }
     };
 
+    println!("system_info: {:?}", system_info);
+
     Ok(SystemInfo {})
   }
 }
