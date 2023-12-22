@@ -143,5 +143,8 @@ impl Minidump {
     Ok(SystemInfo {
       os: os.to_owned()
     })
+    println!("system_info: {:?}", system_info);
+
+    Ok(SystemInfo {})
   }
 }

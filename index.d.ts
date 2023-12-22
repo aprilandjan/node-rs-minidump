@@ -15,3 +15,18 @@ export interface CrashpadInfo {
   moduleList: Array<MinidumpModuleCrashpadInfo>
 }
 export class Minidump {}
+/** Information about the system that generated the minidump. */
+export interface SystemInfo {}
+export class Minidump {
+  /**
+   * custom constructor for napi
+   * see https://napi.rs/docs/concepts/class#custom-constructor
+   */
+  constructor(path: string)
+  /**
+   * instance method for napi
+   * see https://napi.rs/docs/concepts/class#class-method
+   */
+  getCrashpadInfo(): CrashpadInfo
+  getSystemInfo(): SystemInfo
+}

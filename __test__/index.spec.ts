@@ -49,3 +49,10 @@ test('should get process type & pid from electron node child process dump file c
   t.is(result.moduleList[0].annotationObjects['process_type'], 'node')
   t.is(result.moduleList[0].annotationObjects['pid'], '12259')
 })
+
+test('should get system info correctly', (t) => {
+  const file = resolveDumpFile('mac-electron-node.dmp')
+
+  const result = new Minidump(file).getSystemInfo()
+  t.deepEqual(result, {})
+})
