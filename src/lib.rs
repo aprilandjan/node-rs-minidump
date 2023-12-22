@@ -21,10 +21,10 @@ pub struct CrashpadInfo {
 /// Information about the system that generated the minidump.
 #[napi(object)]
 pub struct SystemInfo {
-  // An x86 (not x64!) CPU vendor name that is stored in `raw` but in a way
-  // that's
-  // pub cpu_info: String,
+  /// An x86 (not x64!) CPU vendor name that is stored in `raw` but in a way
+  pub cpu: String,
   pub os: String,
+
 }
 
 #[napi]
@@ -140,10 +140,23 @@ impl Minidump {
       minidump::system_info::Os::Android => "android",
       minidump::system_info::Os::Ps3 => "ps3",
       minidump::system_info::Os::NaCl => "naCl",
-      minidump::system_info::Os::Unknown(_type) => "unknown",
+      _ => "unknown",
+    };
+    let cpu = match system_info.cpu {
+      minidump::system_info::Cpu::X86 => "x86",
+      minidump::system_info::Cpu::X86_64 => "x86_64",
+      minidump::system_info::Cpu::Ppc => "ppc",
+      minidump::system_info::Cpu::Ppc64 => "ppc64",
+      minidump::system_info::Cpu::Sparc => "sparc",
+      minidump::system_info::Cpu::Arm => "arm",
+      minidump::system_info::Cpu::Arm64 => "arm64",
+      minidump::system_info::Cpu::Mips => "mips",
+      minidump::system_info::Cpu::Mips64 => "mips64",
+      _ => "unknown",
     };
     Ok(SystemInfo {
-      os: os.to_owned()
+      os: os.to_owned(),
+      cpu: cpu.to_owned(),
     })
   }
 }

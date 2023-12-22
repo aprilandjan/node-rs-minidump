@@ -16,6 +16,8 @@ export interface CrashpadInfo {
 }
 /** Information about the system that generated the minidump. */
 export interface SystemInfo {
+  /** An x86 (not x64!) CPU vendor name that is stored in `raw` but in a way */
+  cpu: string
   os: string
 }
 export class Minidump {

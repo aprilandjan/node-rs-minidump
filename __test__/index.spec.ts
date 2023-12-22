@@ -56,5 +56,6 @@ test('should get system info correctly', (t) => {
   const result = new Minidump(file).getSystemInfo()
   t.deepEqual(result, {
     os: 'macOs',
+    cpu: 'x86_64',
   })
 })
