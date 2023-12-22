@@ -54,5 +54,7 @@ test('should get system info correctly', (t) => {
   const file = resolveDumpFile('mac-electron-node.dmp')
 
   const result = new Minidump(file).getSystemInfo()
-  t.deepEqual(result, {})
+  t.deepEqual(result, {
+    os: 'macOs',
+  })
 })

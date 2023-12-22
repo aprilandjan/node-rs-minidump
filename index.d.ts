@@ -14,9 +14,10 @@ export interface MinidumpModuleCrashpadInfo {
 export interface CrashpadInfo {
   moduleList: Array<MinidumpModuleCrashpadInfo>
 }
-export class Minidump {}
 /** Information about the system that generated the minidump. */
-export interface SystemInfo {}
+export interface SystemInfo {
+  os: string
+}
 export class Minidump {
   /**
    * custom constructor for napi

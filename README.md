@@ -48,6 +48,8 @@ console.log(info);
 - Install `Node.js@18`
 - Install `yarn@4`
 
+Note: you might need to config `rust-analyzer` to ignore napi macros(see [this](https://github.com/napi-rs/napi-rs/issues/944#issuecomment-1013002760)).
+
 ## Test in local
 
 ```bash
