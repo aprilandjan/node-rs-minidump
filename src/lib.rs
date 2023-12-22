@@ -19,11 +19,12 @@ pub struct CrashpadInfo {
 }
 
 /// Information about the system that generated the minidump.
-#[napi(object)]
+// #[napi(object)]
 pub struct SystemInfo {
   // An x86 (not x64!) CPU vendor name that is stored in `raw` but in a way
   // that's
   // pub cpu_info: String,
+  pub os: String,
 }
 
 #[napi]
@@ -32,11 +33,11 @@ pub struct Minidump {
   dump: minidump::Minidump<'static, Mmap>,
 }
 
-#[napi]
+// #[napi]
 impl Minidump {
   /// custom constructor for napi
   /// see https://napi.rs/docs/concepts/class#custom-constructor
-  #[napi(constructor)]
+  // #[napi(constructor)]
   pub fn new(path: String) -> Result::<Self, napi::Error> {
     let dump_result = minidump::Minidump::read_path(path);
 
@@ -57,7 +58,7 @@ impl Minidump {
 
   /// instance method for napi
   /// see https://napi.rs/docs/concepts/class#class-method
-  #[napi]
+  // #[napi]
   pub fn get_crashpad_info(&self)-> napi::Result<CrashpadInfo> {
     let crashpad_info_result = &self.dump.get_stream::<minidump::MinidumpCrashpadInfo>();
 
@@ -114,7 +115,7 @@ impl Minidump {
     Ok(CrashpadInfo { module_list })
   }
 
-  #[napi]
+  // #[napi]
   pub fn get_system_info(&self)-> napi::Result<SystemInfo> {
     let result = &self.dump.get_stream::<minidump::MinidumpSystemInfo>();
 
@@ -128,6 +129,19 @@ impl Minidump {
       }
     };
 
-    Ok(SystemInfo {})
+    let os = match system_info.os {
+      minidump::system_info::Os::Windows => "windows",
+      minidump::system_info::Os::MacOs => "macOs",
+      minidump::system_info::Os::Ios => "iOS",
+      minidump::system_info::Os::Linux => "linux",
+      minidump::system_info::Os::Solaris => "solaris",
+      minidump::system_info::Os::Android => "android",
+      minidump::system_info::Os::Ps3 => "ps3",
+      minidump::system_info::Os::NaCl => "naCl",
+      minidump::system_info::Os::Unknown(_type) => "unknown",
+    };
+    Ok(SystemInfo {
+      os: os.to_owned()
+    })
   }
 }

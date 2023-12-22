@@ -14,20 +14,4 @@ export interface MinidumpModuleCrashpadInfo {
 export interface CrashpadInfo {
   moduleList: Array<MinidumpModuleCrashpadInfo>
 }
-/**
- * Get crashpad-specific information carried within a minidump file.
- * For example: process type, process pid, etc.
- */
-export function getCrashpadInfo(path: string): CrashpadInfo
-export class Minidump {
-  /**
-   * custom constructor for napi
-   * see https://napi.rs/docs/concepts/class#custom-constructor
-   */
-  constructor(path: string)
-  /**
-   * instance method for napi
-   * see https://napi.rs/docs/concepts/class#class-method
-   */
-  getCrashpadInfo(): CrashpadInfo
-}
+export class Minidump {}
