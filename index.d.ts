@@ -16,10 +16,12 @@ export interface CrashpadInfo {
 }
 /** Information about the system that generated the minidump. */
 export interface SystemInfo {
-  /** An x86 (not x64!) CPU vendor name that is stored in `raw` but in a way */
+  /** The CPU on which the minidump was generated */
   cpu: string
+  /** The operating system that generated the minidump */
   os: string
 }
+export interface MiscInfo {}
 export class Minidump {
   /**
    * custom constructor for napi
@@ -32,4 +34,5 @@ export class Minidump {
    */
   getCrashpadInfo(): CrashpadInfo
   getSystemInfo(): SystemInfo
+  getMiscInfo(): MiscInfo
 }

@@ -51,11 +51,18 @@ test('should get process type & pid from electron node child process dump file c
 })
 
 test('should get system info correctly', (t) => {
-  const file = resolveDumpFile('mac-electron-node.dmp')
+  const file = resolveDumpFile('mac-electron-browser.dmp')
 
   const result = new Minidump(file).getSystemInfo()
   t.deepEqual(result, {
     os: 'macOs',
     cpu: 'x86_64',
   })
+})
+
+test('should get misc info correctly', (t) => {
+  const file = resolveDumpFile('mac-electron-browser.dmp')
+
+  const result = new Minidump(file).getMiscInfo()
+  t.deepEqual(result, {})
 })

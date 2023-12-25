@@ -68,7 +68,7 @@ $ git push
 ## TODO
 
 - [x] export a [class](https://napi.rs/docs/concepts/class)
-- [ ] add `get_system_info`
+- [x] add `get_system_info`
 - [ ] add `get_misc_info`
 - [ ] add `get_exception`
 - [ ] add `get_module_list`

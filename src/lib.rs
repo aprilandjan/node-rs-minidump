@@ -21,15 +21,20 @@ pub struct CrashpadInfo {
 /// Information about the system that generated the minidump.
 #[napi(object)]
 pub struct SystemInfo {
-  /// An x86 (not x64!) CPU vendor name that is stored in `raw` but in a way
+  /// The CPU on which the minidump was generated
   pub cpu: String,
+  /// The operating system that generated the minidump
   pub os: String,
+}
 
+#[napi(object)]
+pub struct MiscInfo {
+  // TODO:
 }
 
 #[napi]
 pub struct Minidump {
-  /// !IMPORTANT: should keep it `private` to prevent napi conversion
+  /// !IMPORTANT: should keep it `private` to prevent napi convertion
   dump: minidump::Minidump<'static, Mmap>,
 }
 
@@ -129,8 +134,6 @@ impl Minidump {
       }
     };
 
-    println!("system_info: {:?}", system_info);
-
     let os = match system_info.os {
       minidump::system_info::Os::Windows => "windows",
       minidump::system_info::Os::MacOs => "macOs",
@@ -157,6 +160,27 @@ impl Minidump {
     Ok(SystemInfo {
       os: os.to_owned(),
       cpu: cpu.to_owned(),
+    })
+  }
+
+  #[napi]
+  pub fn get_misc_info(&self)-> napi::Result<MiscInfo> {
+    let result = &self.dump.get_stream::<minidump::MinidumpMiscInfo>();
+
+    let misc_info = match result {
+      Ok(info) => info,
+      Err(_) => {
+        return Err(napi::Error::new(
+          napi::Status::GenericFailure,
+          "get miscInfo stream from dump file failed".to_owned(),
+        ))
+      }
+    };
+
+    println!("misc info: {:?}", misc_info);
+
+    Ok(MiscInfo {
+      //
     })
   }
 }
