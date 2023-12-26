@@ -21,7 +21,9 @@ export interface SystemInfo {
   /** The operating system that generated the minidump */
   os: string
 }
-export interface MiscInfo {}
+export interface MiscInfo {
+  sizeOfInfo?: number
+}
 export class Minidump {
   /**
    * custom constructor for napi
