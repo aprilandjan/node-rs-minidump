@@ -81,3 +81,4 @@ $ git push
 - <https://github.com/rust-minidump/minidump-debugger>
 - <https://nick.groenen.me/posts/rust-error-handling/>
 - <https://github.com/dtolnay/thiserror>
+- <https://nooptoday.com/what-did-i-learn-while-creating-feed-rs/>
