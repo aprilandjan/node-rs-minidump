@@ -3,6 +3,13 @@ use std::{collections::HashMap};
 use napi_derive::napi;
 use memmap2::Mmap;
 
+use system_info::MinidumpSystemInfo;
+use misc_info::MiscInfo;
+
+mod system_info;
+mod misc_info;
+
+
 /// Additional Crashpad-specific information about a module carried within a minidump file.
 #[napi(object)]
 pub struct MinidumpModuleCrashpadInfo {
@@ -16,44 +23,6 @@ pub struct MinidumpModuleCrashpadInfo {
 #[napi(object)]
 pub struct CrashpadInfo {
   pub module_list: Vec<MinidumpModuleCrashpadInfo>,
-}
-
-/// Information about the system that generated the minidump.
-#[napi(object)]
-pub struct SystemInfo {
-  /// The CPU on which the minidump was generated
-  pub cpu: String,
-  /// The operating system that generated the minidump
-  pub os: String,
-}
-
-#[napi(object)]
-pub struct MiscInfo {
-  // MISC_INFO_1
-  pub size_of_info: Option<u32>,
-  // pub flags1: u32,
-  // pub process_id: u32,
-  // pub process_create_time: u32,
-  // pub process_user_time: u32,
-  // pub process_kernel_time: u32,
-  // // MISC_INFO_2
-  // pub processor_max_mhz: u32,
-  // pub processor_current_mhz: u32,
-  // pub processor_mhz_limit: u32,
-  // pub processor_max_idle_state: u32,
-  // pub processor_current_idle_state: u32,
-  // // MISC_INFO_3
-  // pub process_integrity_level: u32,
-  // pub process_execute_flags: u32,
-  // pub protected_process: u32,
-  // pub time_zone_id: u32,
-  // // pub time_zone: minidump::format::TIME_ZONE_INFORMATION,
-  // // MISC_INFO_4
-  // // pub build_string: [u16; 260], // MAX_PATH
-  // // pub dbg_bld_str: [u16; 40],
-  // // MISC_INFO_5
-  // // pub xstate_data: XSTATE_CONFIG_FEATURE_MSC_INFO,
-  // pub process_cookie: u32,
 }
 
 #[napi]
@@ -145,46 +114,13 @@ impl Minidump {
   }
 
   #[napi]
-  pub fn get_system_info(&self)-> napi::Result<SystemInfo> {
+  pub fn get_system_info(&self)-> napi::Result<MinidumpSystemInfo> {
     let result = &self.dump.get_stream::<minidump::MinidumpSystemInfo>();
 
-    let system_info = match result {
-      Ok(info) => info,
-      Err(_) => {
-        return Err(napi::Error::new(
-          napi::Status::GenericFailure,
-          "get systemInfo stream from dump file failed".to_owned(),
-        ))
-      }
-    };
-
-    let os = match system_info.os {
-      minidump::system_info::Os::Windows => "windows",
-      minidump::system_info::Os::MacOs => "macOs",
-      minidump::system_info::Os::Ios => "iOS",
-      minidump::system_info::Os::Linux => "linux",
-      minidump::system_info::Os::Solaris => "solaris",
-      minidump::system_info::Os::Android => "android",
-      minidump::system_info::Os::Ps3 => "ps3",
-      minidump::system_info::Os::NaCl => "naCl",
-      _ => "unknown",
-    };
-    let cpu = match system_info.cpu {
-      minidump::system_info::Cpu::X86 => "x86",
-      minidump::system_info::Cpu::X86_64 => "x86_64",
-      minidump::system_info::Cpu::Ppc => "ppc",
-      minidump::system_info::Cpu::Ppc64 => "ppc64",
-      minidump::system_info::Cpu::Sparc => "sparc",
-      minidump::system_info::Cpu::Arm => "arm",
-      minidump::system_info::Cpu::Arm64 => "arm64",
-      minidump::system_info::Cpu::Mips => "mips",
-      minidump::system_info::Cpu::Mips64 => "mips64",
-      _ => "unknown",
-    };
-    Ok(SystemInfo {
-      os: os.to_owned(),
-      cpu: cpu.to_owned(),
-    })
+    match result {
+      Ok(info) => Ok(MinidumpSystemInfo::from(info)),
+      Err(err) => Err(napi::Error::from_reason(err.to_string()))
+    }
   }
 
   #[napi]
