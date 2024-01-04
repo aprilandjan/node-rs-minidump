@@ -4,7 +4,7 @@ use memmap2::Mmap;
 
 use crashpad_info::MinidumpCrashpadInfo;
 use system_info::MinidumpSystemInfo;
-use misc_info::MiscInfo;
+use misc_info::MinidumpMiscInfo;
 
 // TODO: so, what's appropriate way to declare these 'mod' files?
 mod crashpad_info;
@@ -63,33 +63,12 @@ impl Minidump {
   }
 
   #[napi]
-  pub fn get_misc_info(&self)-> napi::Result<MiscInfo> {
+  pub fn get_misc_info(&self)-> napi::Result<MinidumpMiscInfo> {
     let result = &self.dump.get_stream::<minidump::MinidumpMiscInfo>();
 
-    let misc_info = match result {
-      Ok(info) => info,
-      Err(_) => {
-        return Err(napi::Error::new(
-          napi::Status::GenericFailure,
-          "get miscInfo stream from dump file failed".to_owned(),
-        ))
-      }
-    };
-
-    println!("misc info: {:?}", misc_info);
-
-    let mut output = MiscInfo {
-      size_of_info: None,
-    };
-
-    match &misc_info.raw {
-      minidump::RawMiscInfo::MiscInfo(info) => {output.size_of_info = Some(info.size_of_info)},
-      minidump::RawMiscInfo::MiscInfo2(info) => {output.size_of_info = Some(info.size_of_info)},
-      minidump::RawMiscInfo::MiscInfo3(info) => {output.size_of_info = Some(info.size_of_info)},
-      minidump::RawMiscInfo::MiscInfo4(info) => {output.size_of_info = Some(info.size_of_info)},
-      minidump::RawMiscInfo::MiscInfo5(info) => {output.size_of_info = Some(info.size_of_info)},
+    match result {
+      Ok(info) => Ok(MinidumpMiscInfo::from(info)),
+      Err(err) => Err(napi::Error::from_reason(err.to_string()))
     }
-
-    Ok(output)
   }
 }

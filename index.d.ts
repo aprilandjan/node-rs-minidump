@@ -21,7 +21,7 @@ export interface MinidumpSystemInfo {
   /** The operating system that generated the minidump */
   os: string
 }
-export interface MiscInfo {
+export interface MinidumpMiscInfo {
   sizeOfInfo?: number
 }
 export class Minidump {
@@ -36,5 +36,5 @@ export class Minidump {
    */
   getCrashpadInfo(): MinidumpCrashpadInfo
   getSystemInfo(): MinidumpSystemInfo
-  getMiscInfo(): MiscInfo
+  getMiscInfo(): MinidumpMiscInfo
 }

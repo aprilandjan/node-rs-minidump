@@ -1,7 +1,7 @@
 use napi_derive::napi;
 
 #[napi(object)]
-pub struct MiscInfo {
+pub struct MinidumpMiscInfo {
   // MISC_INFO_1
   pub size_of_info: Option<u32>,
   // pub flags1: u32,
@@ -27,4 +27,22 @@ pub struct MiscInfo {
   // // MISC_INFO_5
   // // pub xstate_data: XSTATE_CONFIG_FEATURE_MSC_INFO,
   // pub process_cookie: u32,
+}
+
+impl From<&minidump::MinidumpMiscInfo> for MinidumpMiscInfo {
+  fn from(value: &minidump::MinidumpMiscInfo) -> Self {
+    let mut output = MinidumpMiscInfo {
+      size_of_info: None,
+    };
+
+    match &value.raw {
+      minidump::RawMiscInfo::MiscInfo(info) => {output.size_of_info = Some(info.size_of_info)},
+      minidump::RawMiscInfo::MiscInfo2(info) => {output.size_of_info = Some(info.size_of_info)},
+      minidump::RawMiscInfo::MiscInfo3(info) => {output.size_of_info = Some(info.size_of_info)},
+      minidump::RawMiscInfo::MiscInfo4(info) => {output.size_of_info = Some(info.size_of_info)},
+      minidump::RawMiscInfo::MiscInfo5(info) => {output.size_of_info = Some(info.size_of_info)},
+    }
+
+    output
+  }
 }
