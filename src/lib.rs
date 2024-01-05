@@ -23,21 +23,14 @@ impl Minidump {
   /// see https://napi.rs/docs/concepts/class#custom-constructor
   #[napi(constructor)]
   pub fn new(path: String) -> Result::<Self, napi::Error> {
-    let dump_result = minidump::Minidump::read_path(path);
+    let result = minidump::Minidump::read_path(path);
 
-    let dump = match dump_result {
-      Ok(dump) => dump,
-      Err(_) => {
-        return Err(napi::Error::new(
-          napi::Status::InvalidArg,
-          "read minidump file failed".to_owned(),
-        ))
-      }
-    };
-
-    Ok(Minidump {
-      dump,
-    })
+    match result {
+      Ok(dump) => Ok(Minidump {
+        dump
+      }),
+      Err(err) => Err(napi::Error::from_reason(err.to_string())),
+    }
   }
 
   /// instance method for napi

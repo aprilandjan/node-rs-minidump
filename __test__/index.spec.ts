@@ -15,7 +15,7 @@ test('should throw error if target file not exist', (t) => {
     new Minidump(file)
   })
 
-  t.is(error?.message, 'read minidump file failed')
+  t.is(error?.message, 'File not found')
 })
 
 test('should get process type & pid from mac electron main process dump file correctly', (t) => {
