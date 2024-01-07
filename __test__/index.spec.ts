@@ -65,6 +65,16 @@ test('should get misc info correctly', (t) => {
 
   const result = new Minidump(file).getMiscInfo()
   t.deepEqual(result, {
+    flags1: 327,
+    processCreateTime: 1699240689,
+    processId: 11423,
+    processKernelTime: 1,
+    processUserTime: 1,
+    processorCurrentIdleState: 0,
+    processorCurrentMhz: 2900,
+    processorMaxIdleState: 0,
+    processorMaxMhz: 2900,
+    processorMhzLimit: 0,
     sizeOfInfo: 832,
   })
 })

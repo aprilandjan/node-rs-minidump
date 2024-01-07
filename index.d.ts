@@ -21,8 +21,25 @@ export interface MinidumpSystemInfo {
   /** The operating system that generated the minidump */
   os: string
 }
+/**
+ * Miscellaneous process information
+ *
+ * This struct matches the [Microsoft struct][msdn] of the same name.
+ *
+ * [msdn]: https://docs.microsoft.com/en-us/windows/win32/api/minidumpapiset/ns-minidumpapiset-minidump_misc_info
+ */
 export interface MinidumpMiscInfo {
-  sizeOfInfo?: number
+  sizeOfInfo: number
+  flags1: number
+  processId: number
+  processCreateTime: number
+  processUserTime: number
+  processKernelTime: number
+  processorMaxMhz?: number
+  processorCurrentMhz?: number
+  processorMhzLimit?: number
+  processorMaxIdleState?: number
+  processorCurrentIdleState?: number
 }
 export class Minidump {
   /**
