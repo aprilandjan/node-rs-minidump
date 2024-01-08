@@ -23,18 +23,80 @@ pub struct MinidumpMiscInfo {
   pub processor_mhz_limit: Option<u32>,
   pub processor_max_idle_state: Option<u32>,
   pub processor_current_idle_state: Option<u32>,
-  // // MISC_INFO_3
-  // pub process_integrity_level: u32,
-  // pub process_execute_flags: u32,
-  // pub protected_process: u32,
-  // pub time_zone_id: u32,
-  // // pub time_zone: minidump::format::TIME_ZONE_INFORMATION,
+  // MISC_INFO_3
+  pub process_integrity_level: Option<u32>,
+  pub process_execute_flags: Option<u32>,
+  pub protected_process: Option<u32>,
+  pub time_zone_id: Option<u32>,
+  pub time_zone: Option<MinidumpMiscInfoTimeZone>, // minidump::format::TIME_ZONE_INFORMATION,
   // // MISC_INFO_4
   // // pub build_string: [u16; 260], // MAX_PATH
   // // pub dbg_bld_str: [u16; 40],
   // // MISC_INFO_5
   // // pub xstate_data: XSTATE_CONFIG_FEATURE_MSC_INFO,
   // pub process_cookie: u32,
+}
+
+/// Settings for a time zone
+///
+/// This struct matches the [Microsoft struct][msdn] of the same name.
+///
+/// [msdn]: https://docs.microsoft.com/en-us/windows/win32/api/timezoneapi/ns-timezoneapi-time_zone_information
+#[napi(object)]
+pub struct MinidumpMiscInfoTimeZone {
+  pub bias: i32,
+  pub standard_name: Vec<u16>, // [u16, 32]. it is in fact the array type, see https://doc.rust-lang.org/std/primitive.array.html
+  pub standard_date: MinidumpMiscInfoSystemTime,
+  pub standard_bias: i32,
+  pub daylight_name: Vec<u16>, // [u16; 32],
+  pub daylight_date: MinidumpMiscInfoSystemTime,
+  pub daylight_bias: i32,
+}
+
+/// A date and time
+///
+/// This struct matches the [Microsoft struct][msdn] of the same name.
+///
+/// [msdn]: https://msdn.microsoft.com/en-us/library/windows/desktop/ms724950(v=vs.85).aspx
+#[napi(object)]
+pub struct MinidumpMiscInfoSystemTime {
+  pub year: u16,
+  pub month: u16,
+  pub day_of_week: u16,
+  pub day: u16,
+  pub hour: u16,
+  pub minute: u16,
+  pub second: u16,
+  pub milliseconds: u16,
+}
+
+impl From<&minidump::format::SYSTEMTIME> for MinidumpMiscInfoSystemTime {
+  fn from(value: &minidump::format::SYSTEMTIME) -> Self {
+    MinidumpMiscInfoSystemTime {
+      year: value.year,
+      month: value.month,
+      day_of_week: value.day_of_week,
+      day: value.day,
+      hour: value.hour,
+      minute: value.minute,
+      second: value.second,
+      milliseconds: value.milliseconds,
+    }
+  }
+}
+
+impl From<&minidump::format::TIME_ZONE_INFORMATION> for MinidumpMiscInfoTimeZone {
+  fn from(value: &minidump::format::TIME_ZONE_INFORMATION) -> Self {
+    MinidumpMiscInfoTimeZone {
+      bias: value.bias,
+      standard_name: value.standard_name.to_vec(),
+      standard_date: MinidumpMiscInfoSystemTime::from(&value.standard_date),
+      standard_bias: value.standard_bias,
+      daylight_name: value.daylight_name.to_vec(),
+      daylight_date: MinidumpMiscInfoSystemTime::from(&value.daylight_date),
+      daylight_bias: value.daylight_bias,
+    }
+  }
 }
 
 impl From<&minidump::MinidumpMiscInfo> for MinidumpMiscInfo {
@@ -65,6 +127,12 @@ impl From<&minidump::format::MINIDUMP_MISC_INFO> for MinidumpMiscInfo {
       processor_mhz_limit: None,
       processor_max_idle_state: None,
       processor_current_idle_state: None,
+      // MISC_INFO_3
+      process_integrity_level: None,
+      process_execute_flags: None,
+      protected_process: None,
+      time_zone_id: None,
+      time_zone: None,
     }
   }
 }
@@ -85,6 +153,12 @@ impl From<&minidump::format::MINIDUMP_MISC_INFO_2> for MinidumpMiscInfo {
       processor_mhz_limit: Some(info.processor_mhz_limit),
       processor_max_idle_state: Some(info.processor_max_idle_state),
       processor_current_idle_state: Some(info.processor_current_idle_state),
+      // MISC_INFO_3
+      process_integrity_level: None,
+      process_execute_flags: None,
+      protected_process: None,
+      time_zone_id: None,
+      time_zone: None,
     }
   }
 }
@@ -105,6 +179,12 @@ impl From<&minidump::format::MINIDUMP_MISC_INFO_3> for MinidumpMiscInfo {
       processor_mhz_limit: Some(info.processor_mhz_limit),
       processor_max_idle_state: Some(info.processor_max_idle_state),
       processor_current_idle_state: Some(info.processor_current_idle_state),
+      // MISC_INFO_3
+      process_integrity_level: Some(info.process_integrity_level),
+      process_execute_flags: Some(info.process_execute_flags),
+      protected_process: Some(info.protected_process),
+      time_zone_id: Some(info.time_zone_id),
+      time_zone: Some(MinidumpMiscInfoTimeZone::from(&info.time_zone)),
     }
   }
 }
@@ -125,6 +205,12 @@ impl From<&minidump::format::MINIDUMP_MISC_INFO_4> for MinidumpMiscInfo {
       processor_mhz_limit: Some(info.processor_mhz_limit),
       processor_max_idle_state: Some(info.processor_max_idle_state),
       processor_current_idle_state: Some(info.processor_current_idle_state),
+      // MISC_INFO_3
+      process_integrity_level: None,
+      process_execute_flags: None,
+      protected_process: None,
+      time_zone_id: None,
+      time_zone: None,
     }
   }
 }
@@ -145,6 +231,12 @@ impl From<&minidump::format::MINIDUMP_MISC_INFO_5> for MinidumpMiscInfo {
       processor_mhz_limit: Some(info.processor_mhz_limit),
       processor_max_idle_state: Some(info.processor_max_idle_state),
       processor_current_idle_state: Some(info.processor_current_idle_state),
+      // MISC_INFO_3
+      process_integrity_level: None,
+      process_execute_flags: None,
+      protected_process: None,
+      time_zone_id: None,
+      time_zone: None,
     }
   }
 }
