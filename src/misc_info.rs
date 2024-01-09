@@ -29,9 +29,9 @@ pub struct MinidumpMiscInfo {
   pub protected_process: Option<u32>,
   pub time_zone_id: Option<u32>,
   pub time_zone: Option<MinidumpMiscInfoTimeZone>, // minidump::format::TIME_ZONE_INFORMATION,
-  // // MISC_INFO_4
-  // // pub build_string: [u16; 260], // MAX_PATH
-  // // pub dbg_bld_str: [u16; 40],
+  // MISC_INFO_4
+  pub build_string: Option<Vec<u16>>, // [u16, 260],
+  pub dbg_bld_str: Option<Vec<u16>>, // [u16; 40],
   // // MISC_INFO_5
   // // pub xstate_data: XSTATE_CONFIG_FEATURE_MSC_INFO,
   // pub process_cookie: u32,
@@ -133,6 +133,9 @@ impl From<&minidump::format::MINIDUMP_MISC_INFO> for MinidumpMiscInfo {
       protected_process: None,
       time_zone_id: None,
       time_zone: None,
+      // MISC_INFO_4
+      build_string: None,
+      dbg_bld_str: None,
     }
   }
 }
@@ -159,6 +162,9 @@ impl From<&minidump::format::MINIDUMP_MISC_INFO_2> for MinidumpMiscInfo {
       protected_process: None,
       time_zone_id: None,
       time_zone: None,
+      // MISC_INFO_4
+      build_string: None,
+      dbg_bld_str: None,
     }
   }
 }
@@ -185,6 +191,9 @@ impl From<&minidump::format::MINIDUMP_MISC_INFO_3> for MinidumpMiscInfo {
       protected_process: Some(info.protected_process),
       time_zone_id: Some(info.time_zone_id),
       time_zone: Some(MinidumpMiscInfoTimeZone::from(&info.time_zone)),
+      // MISC_INFO_4
+      build_string: None,
+      dbg_bld_str: None,
     }
   }
 }
@@ -206,11 +215,14 @@ impl From<&minidump::format::MINIDUMP_MISC_INFO_4> for MinidumpMiscInfo {
       processor_max_idle_state: Some(info.processor_max_idle_state),
       processor_current_idle_state: Some(info.processor_current_idle_state),
       // MISC_INFO_3
-      process_integrity_level: None,
-      process_execute_flags: None,
-      protected_process: None,
-      time_zone_id: None,
-      time_zone: None,
+      process_integrity_level: Some(info.process_integrity_level),
+      process_execute_flags: Some(info.process_execute_flags),
+      protected_process: Some(info.protected_process),
+      time_zone_id: Some(info.time_zone_id),
+      time_zone: Some(MinidumpMiscInfoTimeZone::from(&info.time_zone)),
+      // MISC_INFO_4
+      build_string: Some(info.build_string.to_vec()),
+      dbg_bld_str: Some(info.dbg_bld_str.to_vec()),
     }
   }
 }
@@ -232,11 +244,14 @@ impl From<&minidump::format::MINIDUMP_MISC_INFO_5> for MinidumpMiscInfo {
       processor_max_idle_state: Some(info.processor_max_idle_state),
       processor_current_idle_state: Some(info.processor_current_idle_state),
       // MISC_INFO_3
-      process_integrity_level: None,
-      process_execute_flags: None,
-      protected_process: None,
-      time_zone_id: None,
-      time_zone: None,
+      process_integrity_level: Some(info.process_integrity_level),
+      process_execute_flags: Some(info.process_execute_flags),
+      protected_process: Some(info.protected_process),
+      time_zone_id: Some(info.time_zone_id),
+      time_zone: Some(MinidumpMiscInfoTimeZone::from(&info.time_zone)),
+      // MISC_INFO_4
+      build_string: Some(info.build_string.to_vec()),
+      dbg_bld_str: Some(info.dbg_bld_str.to_vec()),
     }
   }
 }

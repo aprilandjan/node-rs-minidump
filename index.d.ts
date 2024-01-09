@@ -45,6 +45,8 @@ export interface MinidumpMiscInfo {
   protectedProcess?: number
   timeZoneId?: number
   timeZone?: MinidumpMiscInfoTimeZone
+  buildString?: Array<number>
+  dbgBldStr?: Array<number>
 }
 /**
  * Settings for a time zone
