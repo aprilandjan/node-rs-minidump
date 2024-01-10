@@ -47,6 +47,8 @@ export interface MinidumpMiscInfo {
   timeZone?: MinidumpMiscInfoTimeZone
   buildString?: Array<number>
   dbgBldStr?: Array<number>
+  xstateData?: MinidumpMiscInfoXStateConfigFeature
+  processCookie?: number
 }
 /**
  * Settings for a time zone
@@ -80,6 +82,15 @@ export interface MinidumpMiscInfoSystemTime {
   minute: number
   second: number
   milliseconds: number
+}
+export interface MinidumpMiscInfoXStateFeature {
+  offset: number
+  size: number
+}
+export interface MinidumpMiscInfoXStateConfigFeature {
+  sizeOfInfo: number
+  contextSize: number
+  features: Array<MinidumpMiscInfoXStateFeature>
 }
 export class Minidump {
   /**

@@ -32,9 +32,9 @@ pub struct MinidumpMiscInfo {
   // MISC_INFO_4
   pub build_string: Option<Vec<u16>>, // [u16, 260],
   pub dbg_bld_str: Option<Vec<u16>>, // [u16; 40],
-  // // MISC_INFO_5
-  // // pub xstate_data: XSTATE_CONFIG_FEATURE_MSC_INFO,
-  // pub process_cookie: u32,
+  // MISC_INFO_5
+  pub xstate_data: Option<MinidumpMiscInfoXStateConfigFeature>,
+  pub process_cookie: Option<u32>,
 }
 
 /// Settings for a time zone
@@ -68,6 +68,20 @@ pub struct MinidumpMiscInfoSystemTime {
   pub minute: u16,
   pub second: u16,
   pub milliseconds: u16,
+}
+
+#[napi(object)]
+pub struct MinidumpMiscInfoXStateFeature {
+  pub offset: u32,
+  pub size: u32,
+}
+
+#[napi(object)]
+pub struct MinidumpMiscInfoXStateConfigFeature {
+  pub size_of_info: u32,
+  pub context_size: u32,
+  // pub enabled_features: u64, // TODO:
+  pub features: Vec<MinidumpMiscInfoXStateFeature>, // [XSTATE_FEATURE; 64],
 }
 
 impl From<&minidump::format::SYSTEMTIME> for MinidumpMiscInfoSystemTime {
@@ -111,6 +125,26 @@ impl From<&minidump::MinidumpMiscInfo> for MinidumpMiscInfo {
   }
 }
 
+impl From<&minidump::format::XSTATE_FEATURE> for MinidumpMiscInfoXStateFeature {
+  fn from(value: &minidump::format::XSTATE_FEATURE) -> Self {
+    MinidumpMiscInfoXStateFeature {
+      offset: value.offset,
+      size: value.size,
+    }
+  }
+}
+
+impl From<&minidump::format::XSTATE_CONFIG_FEATURE_MSC_INFO> for MinidumpMiscInfoXStateConfigFeature {
+  fn from(value: &minidump::format::XSTATE_CONFIG_FEATURE_MSC_INFO) -> Self {
+    MinidumpMiscInfoXStateConfigFeature {
+      size_of_info: value.size_of_info,
+      context_size: value.context_size,
+      // pub enabled_features: u64, // TODO:
+      features: value.features.into_iter().map(|feature| MinidumpMiscInfoXStateFeature::from(&feature)).collect(),
+    }
+  }
+}
+
 impl From<&minidump::format::MINIDUMP_MISC_INFO> for MinidumpMiscInfo {
   fn from(info: &minidump::format::MINIDUMP_MISC_INFO) -> Self {
     MinidumpMiscInfo {
@@ -136,6 +170,9 @@ impl From<&minidump::format::MINIDUMP_MISC_INFO> for MinidumpMiscInfo {
       // MISC_INFO_4
       build_string: None,
       dbg_bld_str: None,
+      // MISC_INFO_5
+      xstate_data: None,
+      process_cookie: None,
     }
   }
 }
@@ -165,6 +202,9 @@ impl From<&minidump::format::MINIDUMP_MISC_INFO_2> for MinidumpMiscInfo {
       // MISC_INFO_4
       build_string: None,
       dbg_bld_str: None,
+      // MISC_INFO_5
+      xstate_data: None,
+      process_cookie: None,
     }
   }
 }
@@ -194,6 +234,9 @@ impl From<&minidump::format::MINIDUMP_MISC_INFO_3> for MinidumpMiscInfo {
       // MISC_INFO_4
       build_string: None,
       dbg_bld_str: None,
+      // MISC_INFO_5
+      xstate_data: None,
+      process_cookie: None,
     }
   }
 }
@@ -223,6 +266,9 @@ impl From<&minidump::format::MINIDUMP_MISC_INFO_4> for MinidumpMiscInfo {
       // MISC_INFO_4
       build_string: Some(info.build_string.to_vec()),
       dbg_bld_str: Some(info.dbg_bld_str.to_vec()),
+      // MISC_INFO_5
+      xstate_data: None,
+      process_cookie: None,
     }
   }
 }
@@ -252,6 +298,9 @@ impl From<&minidump::format::MINIDUMP_MISC_INFO_5> for MinidumpMiscInfo {
       // MISC_INFO_4
       build_string: Some(info.build_string.to_vec()),
       dbg_bld_str: Some(info.dbg_bld_str.to_vec()),
+      // MISC_INFO_5
+      xstate_data: Some(MinidumpMiscInfoXStateConfigFeature::from(&info.xstate_data)),
+      process_cookie: Some(info.process_cookie),
     }
   }
 }
