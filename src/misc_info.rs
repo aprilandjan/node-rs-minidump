@@ -1,5 +1,6 @@
 use minidump;
 use napi_derive::napi;
+use napi::bindgen_prelude::BigInt;
 
 /// Miscellaneous process information
 ///
@@ -80,7 +81,9 @@ pub struct MinidumpMiscInfoXStateFeature {
 pub struct MinidumpMiscInfoXStateConfigFeature {
   pub size_of_info: u32,
   pub context_size: u32,
-  // pub enabled_features: u64, // TODO:
+  // how to convert to napi compatible BigInt? https://napi.rs/docs/concepts/values#bigint
+  // need to enable 'napi6' in cargo.toml napi feature list
+  pub enabled_features: BigInt,
   pub features: Vec<MinidumpMiscInfoXStateFeature>, // [XSTATE_FEATURE; 64],
 }
 
@@ -139,7 +142,7 @@ impl From<&minidump::format::XSTATE_CONFIG_FEATURE_MSC_INFO> for MinidumpMiscInf
     MinidumpMiscInfoXStateConfigFeature {
       size_of_info: value.size_of_info,
       context_size: value.context_size,
-      // pub enabled_features: u64, // TODO:
+      enabled_features: BigInt::from(value.enabled_features),
       features: value.features.into_iter().map(|feature| MinidumpMiscInfoXStateFeature::from(&feature)).collect(),
     }
   }
@@ -275,6 +278,7 @@ impl From<&minidump::format::MINIDUMP_MISC_INFO_4> for MinidumpMiscInfo {
 
 impl From<&minidump::format::MINIDUMP_MISC_INFO_5> for MinidumpMiscInfo {
   fn from(info: &minidump::format::MINIDUMP_MISC_INFO_5) -> Self {
+
     MinidumpMiscInfo {
       // MISC_INFO
       size_of_info: info.size_of_info,

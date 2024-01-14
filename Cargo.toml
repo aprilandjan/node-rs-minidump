@@ -12,7 +12,7 @@ crate-type = ["cdylib"]
 [dependencies]
 memmap2 = "0.8.0"
 minidump    = "0.19.1"
-napi        = "2"
+napi        = {version="2", features=["napi6"]}
 napi-derive = "2"
 
 [build-dependencies]

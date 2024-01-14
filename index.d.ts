@@ -90,6 +90,7 @@ export interface MinidumpMiscInfoXStateFeature {
 export interface MinidumpMiscInfoXStateConfigFeature {
   sizeOfInfo: number
   contextSize: number
+  enabledFeatures: bigint
   features: Array<MinidumpMiscInfoXStateFeature>
 }
 export class Minidump {
