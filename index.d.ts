@@ -93,6 +93,12 @@ export interface MinidumpMiscInfoXStateConfigFeature {
   enabledFeatures: bigint
   features: Array<MinidumpMiscInfoXStateFeature>
 }
+export class MinidumpException {
+  context(): void
+  getCrashAddress(): void
+  getCrashReason(): void
+  getCrashingThreadId(): void
+}
 export class Minidump {
   /**
    * custom constructor for napi
@@ -106,4 +112,5 @@ export class Minidump {
   getCrashpadInfo(): MinidumpCrashpadInfo
   getSystemInfo(): MinidumpSystemInfo
   getMiscInfo(): MinidumpMiscInfo
+  getException(): MinidumpException
 }
