@@ -5,11 +5,13 @@ use memmap2::Mmap;
 use crashpad_info::MinidumpCrashpadInfo;
 use system_info::MinidumpSystemInfo;
 use misc_info::MinidumpMiscInfo;
+use exception::MinidumpException;
 
 // TODO: so, what's appropriate way to declare these 'mod' files?
 mod crashpad_info;
 mod system_info;
 mod misc_info;
+mod exception;
 
 #[napi]
 pub struct Minidump {
@@ -61,6 +63,16 @@ impl Minidump {
 
     match result {
       Ok(info) => Ok(MinidumpMiscInfo::from(info)),
+      Err(err) => Err(napi::Error::from_reason(err.to_string()))
+    }
+  }
+
+  #[napi]
+  pub fn get_exception(&self)-> napi::Result<MinidumpException> {
+    let result = &self.dump.get_stream::<minidump::MinidumpException>();
+
+    match result {
+      Ok(info) => Ok(MinidumpException::from(info)),
       Err(err) => Err(napi::Error::from_reason(err.to_string()))
     }
   }
