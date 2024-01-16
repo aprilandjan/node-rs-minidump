@@ -71,8 +71,15 @@ impl Minidump {
   pub fn get_exception(&self)-> napi::Result<MinidumpException> {
     let result = &self.dump.get_stream::<minidump::MinidumpException>();
 
+    let system_info = &self.dump.get_stream::<minidump::MinidumpSystemInfo>().unwrap();
+
+    // let system_info = match result {
+    //   Ok(info) => Ok(MinidumpSystemInfo::from(info)),
+    //   Err(err) => Err(napi::Error::from_reason(err.to_string()))
+    // }
+
     match result {
-      Ok(info) => Ok(MinidumpException::from(info)),
+      Ok(info) => Ok(MinidumpException::new(info, system_info)),
       Err(err) => Err(napi::Error::from_reason(err.to_string()))
     }
   }
