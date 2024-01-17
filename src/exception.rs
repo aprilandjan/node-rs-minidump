@@ -28,7 +28,7 @@ impl MinidumpException {
   /// so here we simplify it
   #[napi]
   pub fn get_crash_reason(&self) {
-
+    // TODO:
   }
 
   pub fn new (exception: &minidump::MinidumpException, system_info: &minidump::MinidumpSystemInfo) -> Self {

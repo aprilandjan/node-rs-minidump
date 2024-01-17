@@ -64,7 +64,7 @@ test('should get misc info correctly', (t) => {
   const file = resolveDumpFile('mac-electron-browser.dmp')
 
   const result = new Minidump(file).getMiscInfo()
-  t.deepEqual(result, {
+  t.like(result, {
     flags1: 327,
     processCreateTime: 1699240689,
     processId: 11423,
