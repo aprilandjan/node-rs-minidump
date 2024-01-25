@@ -1,6 +1,7 @@
 use napi_derive::napi;
 use minidump;
 
+// https://napi.rs/docs/concepts/reference
 #[napi]
 pub struct MinidumpException {
 
