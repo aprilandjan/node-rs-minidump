@@ -5,7 +5,7 @@ use memmap2::Mmap;
 use crashpad_info::MinidumpCrashpadInfo;
 use system_info::MinidumpSystemInfo;
 use misc_info::MinidumpMiscInfo;
-use exception::MinidumpException;
+use exception::JsMinidumpException;
 
 // TODO: so, what's appropriate way to declare these 'mod' files?
 mod crashpad_info;
@@ -59,21 +59,18 @@ impl Minidump {
 
   #[napi]
   pub fn get_misc_info(&self)-> napi::Result<MinidumpMiscInfo> {
-    let result = &self.dump.get_stream::<minidump::MinidumpMiscInfo>();
+    let result = &self.dump.get_stream::<minidump::MinidumpMiscInfo>().unwrap();
 
-    match result {
-      Ok(info) => Ok(MinidumpMiscInfo::from(info)),
-      Err(err) => Err(napi::Error::from_reason(err.to_string()))
-    }
+    Ok(MinidumpMiscInfo::from(result))
   }
 
   #[napi]
-  pub fn get_exception(&self)-> napi::Result<MinidumpException> {
-    let result = &self.dump.get_stream::<minidump::MinidumpException>();
+  pub fn get_exception(&self)-> napi::Result<JsMinidumpException> {
+    let exception = &self.dump.get_stream::<minidump::MinidumpException>().unwrap();
+    let system_info = &self.dump.get_stream::<minidump::MinidumpSystemInfo>().unwrap();
 
-    match result {
-      Ok(info) => Ok(MinidumpException::from(info)),
-      Err(err) => Err(napi::Error::from_reason(err.to_string()))
-    }
+    let reason = exception.get_crash_reason(system_info.os, system_info.cpu);
+
+    Ok(JsMinidumpException::from(reason))
   }
 }

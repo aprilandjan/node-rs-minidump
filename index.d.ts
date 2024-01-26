@@ -94,10 +94,7 @@ export interface MinidumpMiscInfoXStateConfigFeature {
   features: Array<MinidumpMiscInfoXStateFeature>
 }
 export class MinidumpException {
-  context(): void
-  getCrashAddress(): void
   getCrashReason(): void
-  getCrashingThreadId(): void
 }
 export class Minidump {
   /**

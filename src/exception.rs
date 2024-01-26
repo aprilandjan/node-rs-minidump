@@ -1,39 +1,22 @@
 use napi_derive::napi;
-use minidump;
+use minidump::{self, CrashReason};
 
 // https://napi.rs/docs/concepts/reference
 #[napi]
-pub struct MinidumpException {
-
+pub struct JsMinidumpException {
+  pub crash_reason: String,
 }
 
-#[napi]
-impl MinidumpException {
-  #[napi]
-  pub fn context(&self) { // the `&self` indicates that this is instance method
-    //
-  }
-
-  #[napi]
-  pub fn get_crash_address(&self) {
-    //
-  }
-
-  #[napi]
-  pub fn get_crash_reason(&self) {
-
-  }
-
-  #[napi]
-  pub fn get_crashing_thread_id(&self) {
-
-  }
-}
-
-impl From<&minidump::MinidumpException<'_>> for MinidumpException {
-  fn from(value: &minidump::MinidumpException) -> Self {
-    MinidumpException {
-      // TODO:
+impl From<minidump::CrashReason> for JsMinidumpException {
+  fn from(reason: minidump::CrashReason) -> Self {
+    let crash_reason = match reason {
+      CrashReason::MacGeneral(..) => "MacGeneral()",
+      CrashReason::MacBadAccessKern(..) => "MacBadAccessKern",
+      // TODO: lots of transformation here...
+      _ => "Unknown",
+    }.to_owned();
+    JsMinidumpException {
+      crash_reason,
     }
   }
 }
