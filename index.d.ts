@@ -11,11 +11,11 @@ export interface MinidumpModuleCrashpadInfo {
   simpleAnnotations: Record<string, string>
   annotationObjects: Record<string, string>
 }
-export interface MinidumpCrashpadInfo {
+export interface JsMinidumpCrashpadInfo {
   moduleList: Array<MinidumpModuleCrashpadInfo>
 }
 /** Information about the system that generated the minidump. */
-export interface MinidumpSystemInfo {
+export interface JsMinidumpSystemInfo {
   /** The CPU on which the minidump was generated */
   cpu: string
   /** The operating system that generated the minidump */
@@ -28,7 +28,7 @@ export interface MinidumpSystemInfo {
  *
  * [msdn]: https://docs.microsoft.com/en-us/windows/win32/api/minidumpapiset/ns-minidumpapiset-minidump_misc_info
  */
-export interface MinidumpMiscInfo {
+export interface JsMinidumpMiscInfo {
   sizeOfInfo: number
   flags1: number
   processId: number
@@ -93,8 +93,8 @@ export interface MinidumpMiscInfoXStateConfigFeature {
   enabledFeatures: bigint
   features: Array<MinidumpMiscInfoXStateFeature>
 }
-export class MinidumpException {
-  getCrashReason(): void
+export class JsMinidumpException {
+  crashReason: string
 }
 export class Minidump {
   /**
@@ -106,8 +106,8 @@ export class Minidump {
    * instance method for napi
    * see https://napi.rs/docs/concepts/class#class-method
    */
-  getCrashpadInfo(): MinidumpCrashpadInfo
-  getSystemInfo(): MinidumpSystemInfo
-  getMiscInfo(): MinidumpMiscInfo
-  getException(): MinidumpException
+  getCrashpadInfo(): JsMinidumpCrashpadInfo
+  getSystemInfo(): JsMinidumpSystemInfo
+  getMiscInfo(): JsMinidumpMiscInfo
+  getException(): JsMinidumpException
 }

@@ -8,7 +8,7 @@ use napi::bindgen_prelude::BigInt;
 ///
 /// [msdn]: https://docs.microsoft.com/en-us/windows/win32/api/minidumpapiset/ns-minidumpapiset-minidump_misc_info
 #[napi(object)]
-pub struct MinidumpMiscInfo {
+pub struct JsMinidumpMiscInfo {
   // MISC_INFO
   pub size_of_info: u32,
   pub flags1: u32,
@@ -116,14 +116,14 @@ impl From<&minidump::format::TIME_ZONE_INFORMATION> for MinidumpMiscInfoTimeZone
   }
 }
 
-impl From<&minidump::MinidumpMiscInfo> for MinidumpMiscInfo {
+impl From<&minidump::MinidumpMiscInfo> for JsMinidumpMiscInfo {
   fn from(value: &minidump::MinidumpMiscInfo) -> Self {
     match &value.raw {
-      minidump::RawMiscInfo::MiscInfo(info) => {MinidumpMiscInfo::from(info)},
-      minidump::RawMiscInfo::MiscInfo2(info) => {MinidumpMiscInfo::from(info)},
-      minidump::RawMiscInfo::MiscInfo3(info) => {MinidumpMiscInfo::from(info)},
-      minidump::RawMiscInfo::MiscInfo4(info) => {MinidumpMiscInfo::from(info)},
-      minidump::RawMiscInfo::MiscInfo5(info) => {MinidumpMiscInfo::from(info)},
+      minidump::RawMiscInfo::MiscInfo(info) => {JsMinidumpMiscInfo::from(info)},
+      minidump::RawMiscInfo::MiscInfo2(info) => {JsMinidumpMiscInfo::from(info)},
+      minidump::RawMiscInfo::MiscInfo3(info) => {JsMinidumpMiscInfo::from(info)},
+      minidump::RawMiscInfo::MiscInfo4(info) => {JsMinidumpMiscInfo::from(info)},
+      minidump::RawMiscInfo::MiscInfo5(info) => {JsMinidumpMiscInfo::from(info)},
     }
   }
 }
@@ -148,9 +148,9 @@ impl From<&minidump::format::XSTATE_CONFIG_FEATURE_MSC_INFO> for MinidumpMiscInf
   }
 }
 
-impl From<&minidump::format::MINIDUMP_MISC_INFO> for MinidumpMiscInfo {
+impl From<&minidump::format::MINIDUMP_MISC_INFO> for JsMinidumpMiscInfo {
   fn from(info: &minidump::format::MINIDUMP_MISC_INFO) -> Self {
-    MinidumpMiscInfo {
+    JsMinidumpMiscInfo {
       // MISC_INFO
       size_of_info: info.size_of_info,
       flags1: info.flags1,
@@ -180,9 +180,9 @@ impl From<&minidump::format::MINIDUMP_MISC_INFO> for MinidumpMiscInfo {
   }
 }
 
-impl From<&minidump::format::MINIDUMP_MISC_INFO_2> for MinidumpMiscInfo {
+impl From<&minidump::format::MINIDUMP_MISC_INFO_2> for JsMinidumpMiscInfo {
   fn from(info: &minidump::format::MINIDUMP_MISC_INFO_2) -> Self {
-    MinidumpMiscInfo {
+    JsMinidumpMiscInfo {
       // MISC_INFO
       size_of_info: info.size_of_info,
       flags1: info.flags1,
@@ -212,9 +212,9 @@ impl From<&minidump::format::MINIDUMP_MISC_INFO_2> for MinidumpMiscInfo {
   }
 }
 
-impl From<&minidump::format::MINIDUMP_MISC_INFO_3> for MinidumpMiscInfo {
+impl From<&minidump::format::MINIDUMP_MISC_INFO_3> for JsMinidumpMiscInfo {
   fn from(info: &minidump::format::MINIDUMP_MISC_INFO_3) -> Self {
-    MinidumpMiscInfo {
+    JsMinidumpMiscInfo {
       // MISC_INFO
       size_of_info: info.size_of_info,
       flags1: info.flags1,
@@ -244,9 +244,9 @@ impl From<&minidump::format::MINIDUMP_MISC_INFO_3> for MinidumpMiscInfo {
   }
 }
 
-impl From<&minidump::format::MINIDUMP_MISC_INFO_4> for MinidumpMiscInfo {
+impl From<&minidump::format::MINIDUMP_MISC_INFO_4> for JsMinidumpMiscInfo {
   fn from(info: &minidump::format::MINIDUMP_MISC_INFO_4) -> Self {
-    MinidumpMiscInfo {
+    JsMinidumpMiscInfo {
       // MISC_INFO
       size_of_info: info.size_of_info,
       flags1: info.flags1,
@@ -276,10 +276,10 @@ impl From<&minidump::format::MINIDUMP_MISC_INFO_4> for MinidumpMiscInfo {
   }
 }
 
-impl From<&minidump::format::MINIDUMP_MISC_INFO_5> for MinidumpMiscInfo {
+impl From<&minidump::format::MINIDUMP_MISC_INFO_5> for JsMinidumpMiscInfo {
   fn from(info: &minidump::format::MINIDUMP_MISC_INFO_5) -> Self {
 
-    MinidumpMiscInfo {
+    JsMinidumpMiscInfo {
       // MISC_INFO
       size_of_info: info.size_of_info,
       flags1: info.flags1,

@@ -3,14 +3,14 @@ use minidump;
 
 /// Information about the system that generated the minidump.
 #[napi(object)]
-pub struct MinidumpSystemInfo {
+pub struct JsMinidumpSystemInfo {
   /// The CPU on which the minidump was generated
   pub cpu: String,
   /// The operating system that generated the minidump
   pub os: String,
 }
 
-impl From<&minidump::MinidumpSystemInfo> for MinidumpSystemInfo {
+impl From<&minidump::MinidumpSystemInfo> for JsMinidumpSystemInfo {
   fn from(value: &minidump::MinidumpSystemInfo) -> Self {
     let os = match value.os {
       minidump::system_info::Os::Windows => "windows",
@@ -35,7 +35,7 @@ impl From<&minidump::MinidumpSystemInfo> for MinidumpSystemInfo {
       minidump::system_info::Cpu::Mips64 => "mips64",
       _ => "unknown",
     };
-    MinidumpSystemInfo {
+    JsMinidumpSystemInfo {
       os: os.to_owned(),
       cpu: cpu.to_owned(),
     }

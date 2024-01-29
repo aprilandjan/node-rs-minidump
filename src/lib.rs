@@ -2,9 +2,9 @@
 use napi_derive::napi;
 use memmap2::Mmap;
 
-use crashpad_info::MinidumpCrashpadInfo;
-use system_info::MinidumpSystemInfo;
-use misc_info::MinidumpMiscInfo;
+use crashpad_info::JsMinidumpCrashpadInfo;
+use system_info::JsMinidumpSystemInfo;
+use misc_info::JsMinidumpMiscInfo;
 use exception::JsMinidumpException;
 
 // TODO: so, what's appropriate way to declare these 'mod' files?
@@ -38,30 +38,30 @@ impl Minidump {
   /// instance method for napi
   /// see https://napi.rs/docs/concepts/class#class-method
   #[napi]
-  pub fn get_crashpad_info(&self)-> napi::Result<MinidumpCrashpadInfo> {
+  pub fn get_crashpad_info(&self)-> napi::Result<JsMinidumpCrashpadInfo> {
     let result = &self.dump.get_stream::<minidump::MinidumpCrashpadInfo>();
 
     match result {
-      Ok(info) => Ok(MinidumpCrashpadInfo::from(info)),
+      Ok(info) => Ok(JsMinidumpCrashpadInfo::from(info)),
       Err(err) => Err(napi::Error::from_reason(err.to_string()))
     }
   }
 
   #[napi]
-  pub fn get_system_info(&self)-> napi::Result<MinidumpSystemInfo> {
+  pub fn get_system_info(&self)-> napi::Result<JsMinidumpSystemInfo> {
     let result = &self.dump.get_stream::<minidump::MinidumpSystemInfo>();
 
     match result {
-      Ok(info) => Ok(MinidumpSystemInfo::from(info)),
+      Ok(info) => Ok(JsMinidumpSystemInfo::from(info)),
       Err(err) => Err(napi::Error::from_reason(err.to_string()))
     }
   }
 
   #[napi]
-  pub fn get_misc_info(&self)-> napi::Result<MinidumpMiscInfo> {
+  pub fn get_misc_info(&self)-> napi::Result<JsMinidumpMiscInfo> {
     let result = &self.dump.get_stream::<minidump::MinidumpMiscInfo>().unwrap();
 
-    Ok(MinidumpMiscInfo::from(result))
+    Ok(JsMinidumpMiscInfo::from(result))
   }
 
   #[napi]

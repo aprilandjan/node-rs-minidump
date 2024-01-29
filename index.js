@@ -234,7 +234,7 @@ if (!nativeBinding) {
   throw new Error(`Failed to load native binding`)
 }
 
-const { MinidumpException, Minidump } = nativeBinding
+const { JsMinidumpException, Minidump } = nativeBinding
 
-module.exports.MinidumpException = MinidumpException
+module.exports.JsMinidumpException = JsMinidumpException
 module.exports.Minidump = Minidump
