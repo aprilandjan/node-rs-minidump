@@ -2,16 +2,9 @@
 use napi_derive::napi;
 use memmap2::Mmap;
 
-use crashpad_info::JsMinidumpCrashpadInfo;
-use system_info::JsMinidumpSystemInfo;
-use misc_info::JsMinidumpMiscInfo;
-use exception::JsMinidumpException;
+mod streams;
 
-// TODO: so, what's appropriate way to declare these 'mod' files?
-mod crashpad_info;
-mod system_info;
-mod misc_info;
-mod exception;
+use streams::*;
 
 #[napi]
 pub struct Minidump {

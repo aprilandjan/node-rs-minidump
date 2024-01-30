@@ -14,13 +14,6 @@ export interface MinidumpModuleCrashpadInfo {
 export interface JsMinidumpCrashpadInfo {
   moduleList: Array<MinidumpModuleCrashpadInfo>
 }
-/** Information about the system that generated the minidump. */
-export interface JsMinidumpSystemInfo {
-  /** The CPU on which the minidump was generated */
-  cpu: string
-  /** The operating system that generated the minidump */
-  os: string
-}
 /**
  * Miscellaneous process information
  *
@@ -92,6 +85,13 @@ export interface MinidumpMiscInfoXStateConfigFeature {
   contextSize: number
   enabledFeatures: bigint
   features: Array<MinidumpMiscInfoXStateFeature>
+}
+/** Information about the system that generated the minidump. */
+export interface JsMinidumpSystemInfo {
+  /** The CPU on which the minidump was generated */
+  cpu: string
+  /** The operating system that generated the minidump */
+  os: string
 }
 export class JsMinidumpException {
   crashReason: string
