@@ -7,47 +7,38 @@ mod streams;
 use streams::*;
 
 #[napi]
-pub struct Minidump {
+pub struct JsMinidump {
   /// !IMPORTANT: should keep it `private` to prevent napi convertion
   dump: minidump::Minidump<'static, Mmap>,
 }
 
 #[napi]
-impl Minidump {
+impl JsMinidump {
   /// custom constructor for napi
   /// see https://napi.rs/docs/concepts/class#custom-constructor
   #[napi(constructor)]
   pub fn new(path: String) -> Result::<Self, napi::Error> {
-    let result = minidump::Minidump::read_path(path);
+    let dump = minidump::Minidump::read_path(path).unwrap();
 
-    match result {
-      Ok(dump) => Ok(Minidump {
-        dump
-      }),
-      Err(err) => Err(napi::Error::from_reason(err.to_string())),
-    }
+    Ok(JsMinidump {
+      dump,
+    })
   }
 
   /// instance method for napi
   /// see https://napi.rs/docs/concepts/class#class-method
   #[napi]
   pub fn get_crashpad_info(&self)-> napi::Result<JsMinidumpCrashpadInfo> {
-    let result = &self.dump.get_stream::<minidump::MinidumpCrashpadInfo>();
+    let result = &self.dump.get_stream::<minidump::MinidumpCrashpadInfo>().unwrap();
 
-    match result {
-      Ok(info) => Ok(JsMinidumpCrashpadInfo::from(info)),
-      Err(err) => Err(napi::Error::from_reason(err.to_string()))
-    }
+    Ok(JsMinidumpCrashpadInfo::from(result))
   }
 
   #[napi]
   pub fn get_system_info(&self)-> napi::Result<JsMinidumpSystemInfo> {
-    let result = &self.dump.get_stream::<minidump::MinidumpSystemInfo>();
+    let result = &self.dump.get_stream::<minidump::MinidumpSystemInfo>().unwrap();
 
-    match result {
-      Ok(info) => Ok(JsMinidumpSystemInfo::from(info)),
-      Err(err) => Err(napi::Error::from_reason(err.to_string()))
-    }
+    Ok(JsMinidumpSystemInfo::from(result))
   }
 
   #[napi]
@@ -65,5 +56,12 @@ impl Minidump {
     let reason = exception.get_crash_reason(system_info.os, system_info.cpu);
 
     Ok(JsMinidumpException::from(reason))
+  }
+
+  // #[napi]
+  pub fn get_module_list(&self)-> napi::Result<JsMinidumpModuleList> {
+    let result = &self.dump.get_stream::<minidump::MinidumpModuleList>().unwrap();
+
+    Ok(JsMinidumpModuleList::from(result))
   }
 }
