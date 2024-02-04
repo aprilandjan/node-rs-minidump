@@ -13,11 +13,11 @@ pub struct MinidumpModuleCrashpadInfo {
 }
 
 #[napi(object)]
-pub struct MinidumpCrashpadInfo {
+pub struct JsMinidumpCrashpadInfo {
   pub module_list: Vec<MinidumpModuleCrashpadInfo>,
 }
 
-impl From<&minidump::MinidumpCrashpadInfo> for MinidumpCrashpadInfo {
+impl From<&minidump::MinidumpCrashpadInfo> for JsMinidumpCrashpadInfo {
   fn from(crashpad_info: &minidump::MinidumpCrashpadInfo) -> Self {
 
     let mut module_list: Vec<MinidumpModuleCrashpadInfo> = vec![];
@@ -60,6 +60,6 @@ impl From<&minidump::MinidumpCrashpadInfo> for MinidumpCrashpadInfo {
       module_list.push(module);
     }
 
-    MinidumpCrashpadInfo { module_list }
+    JsMinidumpCrashpadInfo { module_list }
   }
 }
