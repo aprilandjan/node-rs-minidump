@@ -3,10 +3,9 @@ use napi_derive::napi;
 use memmap2::Mmap;
 
 mod streams;
-
 use streams::*;
 
-#[napi]
+#[napi(js_name = "Minidump")]
 pub struct JsMinidump {
   /// !IMPORTANT: should keep it `private` to prevent napi convertion
   dump: minidump::Minidump<'static, Mmap>,
@@ -62,17 +61,6 @@ impl JsMinidump {
   pub fn get_module_list(&self)-> napi::Result<JsMinidumpModuleList> {
     let result = &self.dump.get_stream::<minidump::MinidumpModuleList>().unwrap();
 
-    let system_info = &self.dump.get_stream::<minidump::MinidumpSystemInfo>().unwrap();
-
-    // let system_info = match result {
-    //   Ok(info) => Ok(MinidumpSystemInfo::from(info)),
-    //   Err(err) => Err(napi::Error::from_reason(err.to_string()))
-    // }
-
-    match result {
-      Ok(info) => Ok(MinidumpException::new(info, system_info)),
-      Err(err) => Err(napi::Error::from_reason(err.to_string()))
-    }
     Ok(JsMinidumpModuleList::from(result))
   }
 }
