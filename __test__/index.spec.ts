@@ -62,8 +62,8 @@ test('should get system info correctly', (t) => {
 
 test('should get misc info correctly', (t) => {
   const file = resolveDumpFile('mac-electron-browser.dmp')
-
   const result = new Minidump(file).getMiscInfo()
+
   t.like(result, {
     flags1: 327,
     processCreateTime: 1699240689,
@@ -77,4 +77,11 @@ test('should get misc info correctly', (t) => {
     processorMhzLimit: 0,
     sizeOfInfo: 832,
   })
+})
+
+test('should get exception correctly', (t) => {
+  const file = resolveDumpFile('mac-electron-browser.dmp')
+  const result = new Minidump(file).getException()
+
+  t.is(result.crashReason, 'Unknown')
 })

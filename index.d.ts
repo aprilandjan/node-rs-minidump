@@ -86,12 +86,6 @@ export interface MinidumpMiscInfoXStateConfigFeature {
   enabledFeatures: bigint
   features: Array<MinidumpMiscInfoXStateFeature>
 }
-export class MinidumpException {
-  /**
-   * there's too much enum defines for `get_crash_reason` method exposed in `minidump`
-   * so here we simplify it
-   */
-  getCrashReason(): void
 /** Information about the system that generated the minidump. */
 export interface JsMinidumpSystemInfo {
   /** The CPU on which the minidump was generated */
@@ -99,9 +93,17 @@ export interface JsMinidumpSystemInfo {
   /** The operating system that generated the minidump */
   os: string
 }
+export interface JsMinidumpModuleList {
+  modules: Array<JsMinidumpModule>
+}
+export interface JsMinidumpModule {
+  /** The original module text */
+  raw: string
+}
 export class JsMinidumpException {
   crashReason: string
 }
+export type JsMinidump = Minidump
 export class Minidump {
   /**
    * custom constructor for napi
